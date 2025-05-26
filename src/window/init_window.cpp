@@ -1,3 +1,4 @@
+#include "glad/glad.h"
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include "window.hpp"
@@ -21,11 +22,21 @@ Window::Window(int width, int height, const char *name)
         std::exit(EXIT_ERROR_GLFW);
     }
     glfwMakeContextCurrent(Window::win);
+    if (!gladLoadGL()) {
+        std::cerr << "Erreur glad\n";
+        std::exit(EXIT_ERROR_GLFW);
+    }
+    glViewport(0, 0, width, height);
+    Window::init_shaders();
+    Window::init_buffers();
 }
 
 // fonction qui detruit la class
 Window::~Window()
 {
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glDeleteProgram(Window::shader_prog);
     glfwDestroyWindow(Window::win);
     glfwTerminate();
 }
@@ -39,6 +50,7 @@ bool Window::is_open() const
 void Window::display() {
     glfwSwapBuffers(Window::win);
     glfwPollEvents();
+    Window::clear();
 }
 
 void Window::clear() {
