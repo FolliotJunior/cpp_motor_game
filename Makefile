@@ -20,6 +20,7 @@ NAME        = motor
 
 CXX         ?= g++
 CXXFLAGS    += -std=c++20 -Wall -Wextra -iquote$(INCLUDE_DIR)
+CPPFLAGS	+= -Wall -Wextra -iquote$(INCLUDE_DIR)
 LDFLAGS     += -lglfw -lGL
 
 all: $(NAME)
@@ -33,7 +34,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CPPFLAGS) -c $< -o $@
 
 clean:
 	$(RM) -r $(BUILD_DIR)
@@ -41,7 +42,8 @@ clean:
 fclean: clean
 	$(RM) $(NAME)
 
-re: fclean all
+re: fclean
+	make -j
 
 debug: CXXFLAGS += -fsanitize=address
 debug: re
