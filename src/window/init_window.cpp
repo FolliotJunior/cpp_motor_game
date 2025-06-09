@@ -29,6 +29,8 @@ Window::Window(int width, int height, const char *name)
     glViewport(0, 0, width, height);
     Window::init_shaders();
     Window::init_buffers();
+
+    Window::init_size = (mt_vector2i_t){width, height};
 }
 
 // fonction qui detruit la class

@@ -6,7 +6,8 @@ INCLUDE_DIR = include
 
 WINDOW      = 	init_window.cpp		\
 				init_shader.cpp		\
-				draw_triangle.cpp
+				draw_triangle.cpp	\
+				size.cpp
 
 CPP_SRC     = $(addprefix $(SRC_DIR)/window/, $(WINDOW)) \
               $(SRC_DIR)/$(MAIN)
